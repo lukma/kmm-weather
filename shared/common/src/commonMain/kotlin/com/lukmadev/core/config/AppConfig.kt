@@ -7,4 +7,5 @@ data class AppConfig(
 data class APIGateway(
     val host: String,
     val prefixPath: String,
+    val apiKey: String,
 )

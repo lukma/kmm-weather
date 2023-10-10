@@ -3,7 +3,6 @@ package com.lukmadev.apps.weather.di
 import com.lukmadev.apps.weather.feature.home.HomeViewModel
 import com.lukmadev.apps.weather.util.CoroutinesTestRule
 import com.lukmadev.apps.weather.util.KoinTestRule
-import com.lukmadev.core.domain.product.usecase.GetProductsUseCase
 import io.mockk.mockk
 import org.junit.Rule
 import org.junit.Test
@@ -20,7 +19,6 @@ class ViewModelModuleTest : KoinTest {
     @get:Rule
     val koinTestRule = KoinTestRule(
         module = module {
-            single<GetProductsUseCase> { mockk() }
             includes(viewModelModule)
         }
     )

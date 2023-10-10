@@ -51,6 +51,11 @@ android {
                 "WEATHER_API_PREFIX_PATH",
                 "\"${apiProp.getProperty("DEVELOPMENT_WEATHER_API_PREFIX_PATH")}\""
             )
+            buildConfigField(
+                "String",
+                "WEATHER_API_KEY",
+                "\"${apiProp.getProperty("DEVELOPMENT_WEATHER_API_KEY")}\""
+            )
         }
     }
 }

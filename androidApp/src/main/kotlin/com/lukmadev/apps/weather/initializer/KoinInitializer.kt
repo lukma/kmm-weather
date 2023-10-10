@@ -16,6 +16,7 @@ class KoinInitializer : Initializer<Unit> {
             weatherAPIGateway = APIGateway(
                 host = BuildConfig.WEATHER_API_HOST,
                 prefixPath = BuildConfig.WEATHER_API_PREFIX_PATH,
+                apiKey = BuildConfig.WEATHER_API_KEY,
             )
         )
         initKoin(appConfig) {
