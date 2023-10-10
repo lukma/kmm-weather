@@ -7,4 +7,5 @@ import kotlinx.coroutines.flow.emptyFlow
 internal interface GeocodingDataSource {
     suspend fun findCities(query: String?): Flow<List<City>> = emptyFlow()
     suspend fun markCityAsFavorite(city: City) = Unit
+    suspend fun getFavoriteCities(): Flow<List<City>> = emptyFlow()
 }

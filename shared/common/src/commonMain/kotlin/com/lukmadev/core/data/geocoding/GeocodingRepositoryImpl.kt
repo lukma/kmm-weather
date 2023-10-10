@@ -16,4 +16,8 @@ internal class GeocodingRepositoryImpl(
     override suspend fun markCityAsFavorite(city: City) {
         localGeocodingDataSource.markCityAsFavorite(city)
     }
+
+    override suspend fun getFavoriteCities(): Flow<List<City>> {
+        return localGeocodingDataSource.getFavoriteCities()
+    }
 }

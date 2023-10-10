@@ -87,4 +87,34 @@ class GeocodingRepositoryImplTest {
         // then
         assertFails { actual.getOrThrow() }
     }
+
+    @Test
+    fun perform_getFavoriteCities_got_value() = runTest {
+        // given
+        coEvery { localGeocodingDataSource.getFavoriteCities() } returns flowOf(TestSamples.cities)
+
+        // when
+        val actual = repository.getFavoriteCities().single()
+
+        // then
+        val expected = TestSamples.cities
+        assertEquals(expected, actual)
+        coVerify(exactly = 1) {
+            localGeocodingDataSource.getFavoriteCities()
+        }
+    }
+
+    @Test
+    fun perform_getFavoriteCities_got_failure() = runTest {
+        // given
+        coEvery { localGeocodingDataSource.getFavoriteCities() } returns flow { error("fail") }
+
+        // when
+        val actual = runCatching {
+            repository.getFavoriteCities().single()
+        }
+
+        // then
+        assertFails { actual.getOrThrow() }
+    }
 }
