@@ -11,6 +11,7 @@ import org.koin.androidx.compose.koinViewModel
 
 object HomeContainer : ComponentNavGraph {
     override val route: String = "home"
+
     override fun content(): @Composable AnimatedContentScope.(NavBackStackEntry) -> Unit = {
         val viewModel: HomeViewModel = koinViewModel()
         val uiState by viewModel.uiState.collectAsState()

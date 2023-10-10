@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.lukmadev.apps.weather.feature.forecast.ForecastContainer
 import com.lukmadev.apps.weather.feature.home.HomeContainer
 import com.lukmadev.apps.weather.ui.theme.WeatherTheme
 import com.lukmadev.uikit.layout.SimpleScaffold
@@ -32,6 +33,7 @@ fun WeatherApp(
                         modifier = Modifier.padding(paddingValues),
                     ) {
                         HomeContainer.build(this)
+                        ForecastContainer.build(this)
                     }
                 },
             )

@@ -4,6 +4,7 @@ import java.io.FileInputStream
 plugins {
     id("lukmadev.android.application")
     id("lukmadev.android.application.compose")
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -66,6 +67,7 @@ dependencies {
     implementation(project(":shared:uikit"))
 
     // Kotlin
+    implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.datetime)
 
     // AndroidX
