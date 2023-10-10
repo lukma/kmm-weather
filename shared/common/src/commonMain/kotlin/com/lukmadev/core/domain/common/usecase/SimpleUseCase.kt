@@ -1,7 +1,7 @@
 package com.lukmadev.core.domain.common.usecase
 
-import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
 import com.lukmadev.core.domain.common.entity.Result
+import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
 import kotlin.coroutines.cancellation.CancellationException
 
 abstract class SimpleUseCase<P : Any, T> {
