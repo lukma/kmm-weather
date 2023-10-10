@@ -17,7 +17,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.util.concurrent.TimeUnit
 
 class HomeViewModel(
     private val findCitiesUseCase: FindCitiesUseCase,
@@ -52,7 +51,7 @@ class HomeViewModel(
         getFavoriteCitiesUseCase()
             .map { cities ->
                 cities.map { city ->
-                    CityListItemModel(city = city, isFavorite = true)
+                    CityListItemModel.Loaded(city = city, isFavorite = true)
                 }
             }
             .collectLatest { cities ->
@@ -65,14 +64,17 @@ class HomeViewModel(
             _uiState.update { it.copy(query = query) }
             queryJob?.cancel()
             queryJob = viewModelScope.launch {
-                delay(TimeUnit.SECONDS.toMillis(2))
+                delay(DEBOUNCE_FETCH_NETWORK)
+
+                _uiState.update { it.copy(listOfCities = listOf(CityListItemModel.Loading)) }
+
                 val param = FindCitiesUseCase.Param(query)
                 combine(
                     getFavoriteCitiesUseCase(),
                     findCitiesUseCase(param),
                 ) { favoritesResult, findResult ->
                     findResult.map { city ->
-                        CityListItemModel(
+                        CityListItemModel.Loaded(
                             city = city,
                             isFavorite = favoritesResult.any {
                                 city.latitude == it.latitude && city.longitude == it.longitude
@@ -95,9 +97,13 @@ class HomeViewModel(
         toggleFavoriteCityUseCase(param)
             .onSuccess {
                 _uiState.update {
-                    val index = it.listOfCities.map { item -> item.city }.indexOf(city)
+                    val index = it.listOfCities.mapNotNull { item ->
+                        (item as? CityListItemModel.Loaded)?.city
+                    }.indexOf(city)
                     if (it.isShowSearchResult) {
-                        val selectedItem = it.listOfCities.getOrNull(index) ?: return@onSuccess
+                        val selectedItem =
+                            it.listOfCities.getOrNull(index) as? CityListItemModel.Loaded
+                                ?: return@onSuccess
                         val updatedListOfCities = it.listOfCities.toMutableList().apply {
                             set(index, selectedItem.copy(isFavorite = !selectedItem.isFavorite))
                         }
@@ -109,5 +115,9 @@ class HomeViewModel(
                     }
                 }
             }
+    }
+
+    companion object {
+        private const val DEBOUNCE_FETCH_NETWORK = 1500L
     }
 }

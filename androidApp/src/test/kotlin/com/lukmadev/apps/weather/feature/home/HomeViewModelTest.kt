@@ -49,7 +49,7 @@ class HomeViewModelTest {
         val expected = HomeUiState(
             query = "",
             listOfCities = TestSamples.favoriteCities.map {
-                CityListItemModel(
+                CityListItemModel.Loaded(
                     city = it,
                     isFavorite = true,
                 )
@@ -76,7 +76,7 @@ class HomeViewModelTest {
         val expected = HomeUiState(
             query = TestSamples.allCities.first().name,
             listOfCities = TestSamples.allCities.mapIndexed { index, city ->
-                CityListItemModel(
+                CityListItemModel.Loaded(
                     city = city,
                     isFavorite = index == 0,
                 )
@@ -104,7 +104,7 @@ class HomeViewModelTest {
         val expected = HomeUiState(
             query = " ",
             listOfCities = TestSamples.favoriteCities.map {
-                CityListItemModel(
+                CityListItemModel.Loaded(
                     city = it,
                     isFavorite = true,
                 )
@@ -129,7 +129,7 @@ class HomeViewModelTest {
             query = TestSamples.allCities.first().name,
             listOfCities = emptyList(),
         )
-        assertEquals(expected.listOfCities.map { it.isFavorite }, actual.listOfCities.map { it.isFavorite })
+        assertEquals(expected.listOfCities, actual.listOfCities)
         coVerify(exactly = 1) {
             toggleFavoriteCityUseCase(any())
         }
@@ -152,13 +152,13 @@ class HomeViewModelTest {
         val expected = HomeUiState(
             query = TestSamples.allCities.first().name,
             listOfCities = TestSamples.allCities.map {
-                CityListItemModel(
+                CityListItemModel.Loaded(
                     city = it,
                     isFavorite = true,
                 )
             },
         )
-        assertEquals(expected.listOfCities.map { it.isFavorite }, actual.listOfCities.map { it.isFavorite })
+        assertEquals(expected.listOfCities, actual.listOfCities)
         coVerify(exactly = 1) {
             toggleFavoriteCityUseCase(any())
         }
