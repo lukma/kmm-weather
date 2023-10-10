@@ -129,7 +129,7 @@ class HomeViewModelTest {
             query = TestSamples.allCities.first().name,
             listOfCities = emptyList(),
         )
-        assertEquals(expected.listOfCities, actual.listOfCities)
+        assertEquals(expected, actual)
         coVerify(exactly = 1) {
             toggleFavoriteCityUseCase(any())
         }
@@ -158,7 +158,7 @@ class HomeViewModelTest {
                 )
             },
         )
-        assertEquals(expected.listOfCities, actual.listOfCities)
+        assertEquals(expected, actual)
         coVerify(exactly = 1) {
             toggleFavoriteCityUseCase(any())
         }
