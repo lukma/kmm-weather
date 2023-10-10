@@ -1,7 +1,6 @@
-package com.lukmadev.core.domain.geocoding.usecast
+package com.lukmadev.core.domain.forecast.usecase
 
-import com.lukmadev.core.domain.geocoding.GeocodingRepository
-import com.lukmadev.core.domain.geocoding.usecase.FindCitiesUseCase
+import com.lukmadev.core.domain.forecast.ForecastRepository
 import com.lukmadev.core.util.TestSamples
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -14,29 +13,31 @@ import kotlinx.coroutines.test.runTest
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
 
-class FindCitiesUseCaseTest {
-    private val productRepository: GeocodingRepository = mockk()
-    private val useCase = FindCitiesUseCase(productRepository)
-    private val useCaseParam = FindCitiesUseCase.Param(
-        query = TestSamples.cities.first().name,
+class GetDailyForecastUseCaseTest {
+    private val forecastRepository: ForecastRepository = mockk()
+    private val useCase = GetDailyForecastUseCase(forecastRepository)
+    private val useCaseParam = GetDailyForecastUseCase.Param(
+        latitude = TestSamples.cities.first().latitude,
+        longitude = TestSamples.cities.first().longitude,
     )
 
     @Test
     fun perform_invoke_got_value() = runTest {
         // given
         coEvery {
-            productRepository.findCities(any())
-        } returns flowOf(TestSamples.cities)
+            forecastRepository.getDailyForecast(any(), any())
+        } returns flowOf(TestSamples.dailyForecast)
 
         // when
         val actual = useCase(useCaseParam).single()
 
         // then
-        val expected = TestSamples.cities
+        val expected = TestSamples.dailyForecast
         assertEquals(expected, actual)
         coVerify {
-            productRepository.findCities(
-                query = useCaseParam.query,
+            forecastRepository.getDailyForecast(
+                latitude = useCaseParam.latitude,
+                longitude = useCaseParam.longitude,
             )
         }
     }
@@ -45,7 +46,7 @@ class FindCitiesUseCaseTest {
     fun perform_invoke_got_failure() = runTest {
         // given
         coEvery {
-            productRepository.findCities(any())
+            forecastRepository.getDailyForecast(any(), any())
         } returns flow { error("fail") }
 
         // when

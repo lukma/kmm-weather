@@ -1,5 +1,6 @@
 package com.lukmadev.core.di
 
+import com.lukmadev.core.domain.forecast.usecase.GetDailyForecastUseCase
 import com.lukmadev.core.domain.geocoding.usecase.FindCitiesUseCase
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
@@ -9,4 +10,7 @@ internal val useCaseModule = module {
 
     // Geocoding
     factoryOf(::FindCitiesUseCase)
+
+    // Forecast
+    factoryOf(::GetDailyForecastUseCase)
 }
