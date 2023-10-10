@@ -9,7 +9,9 @@ import androidx.navigation.NavBackStackEntry
 import com.lukmadev.uikit.navigation.ComponentNavGraph
 import org.koin.androidx.compose.koinViewModel
 
-object HomeContainer : ComponentNavGraph {
+data class HomeContainer(
+    val navigateTo: (String) -> Unit
+) : ComponentNavGraph {
     override val route: String = "home"
 
     override fun content(): @Composable AnimatedContentScope.(NavBackStackEntry) -> Unit = {
@@ -20,6 +22,10 @@ object HomeContainer : ComponentNavGraph {
             viewModel.sendEvent(HomeUiEvent.ShowFavoriteCities)
         }
 
-        HomeView(uiState = uiState, onSendEvent = viewModel::sendEvent)
+        HomeView(
+            uiState = uiState,
+            onSendEvent = viewModel::sendEvent,
+            navigateTo = navigateTo,
+        )
     }
 }

@@ -14,6 +14,6 @@ internal val viewModelModule = module {
     viewModel { param ->
         val json = get<Json>()
         val city = json.decodeFromString<CityArg>(param.get()).toCity()
-        ForecastViewModel(city, get())
+        ForecastViewModel(city, get(), get())
     }
 }

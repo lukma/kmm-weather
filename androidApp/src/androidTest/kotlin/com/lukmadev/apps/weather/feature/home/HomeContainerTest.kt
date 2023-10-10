@@ -42,7 +42,7 @@ class HomeContainerTest {
     @Before
     fun setup() {
         coEvery { getFavoriteCitiesUseCase() } returns flowOf(TestSamples.favoriteCities)
-        composeTestRule.setScreen(component = HomeContainer)
+        composeTestRule.setScreen(component = HomeContainer(navigateTo = {}))
     }
 
     @Test

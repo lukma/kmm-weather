@@ -1,5 +1,6 @@
 package com.lukmadev.apps.weather.feature.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -24,9 +25,12 @@ import com.lukmadev.uikit.util.ext.shimmerPlaceholder
 fun CityItemView(
     item: CityListItemModel,
     toggle: (City) -> Unit,
+    showDailyForecast: (City) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    ConstraintLayout(modifier) {
+    ConstraintLayout(modifier.clickable {
+        (item as? CityListItemModel.Loaded)?.city?.run { showDailyForecast(this) }
+    }) {
         val (
             name,
             stateAndCountry,
@@ -71,7 +75,7 @@ fun CityItemView(
 
         if (item is CityListItemModel.Loaded) {
             IconButton(
-                onClick = { (item as? CityListItemModel.Loaded)?.city?.run { toggle(this) } },
+                onClick = { toggle(item.city) },
                 modifier = Modifier
                     .constrainAs(isFavorite) {
                         top.linkTo(parent.top)
@@ -106,6 +110,7 @@ private fun DefaultPreview() {
                 isFavorite = false
             ),
             toggle = { /* no-op */ },
+            showDailyForecast = { /* no-op */ },
             modifier = Modifier.fillMaxWidth(),
         )
     }

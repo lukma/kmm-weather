@@ -6,7 +6,10 @@ import com.lukmadev.apps.weather.util.KoinTestRule
 import com.lukmadev.apps.weather.util.TestSamples
 import com.lukmadev.apps.weather.util.setScreen
 import com.lukmadev.core.domain.forecast.usecase.GetDailyForecastUseCase
+import com.lukmadev.core.domain.geocoding.usecase.ToggleFavoriteCityUseCase
+import io.mockk.coEvery
 import io.mockk.mockk
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.junit.Before
@@ -18,6 +21,7 @@ import org.koin.test.get
 
 class ForecastContainerTest : KoinTest {
     private val getDailyForecastUseCase: GetDailyForecastUseCase = mockk()
+    private val toggleFavoriteCityUseCase: ToggleFavoriteCityUseCase = mockk()
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -34,11 +38,13 @@ class ForecastContainerTest : KoinTest {
                 }
             }
             factory { getDailyForecastUseCase }
+            factory { toggleFavoriteCityUseCase }
         }
     )
 
     @Before
     fun setup() {
+        coEvery { getDailyForecastUseCase(any()) } returns flowOf(TestSamples.dailyForecast)
         composeTestRule.setScreen(
             withDummyStartDestination = true,
             navigateTo = {

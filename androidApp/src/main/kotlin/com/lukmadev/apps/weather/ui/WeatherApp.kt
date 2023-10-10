@@ -27,12 +27,17 @@ fun WeatherApp(
                 modifier = modifier,
                 content = { paddingValues ->
                     val navController = rememberNavController()
+
+                    val home = remember {
+                        HomeContainer(navigateTo = navController::navigate)
+                    }
+
                     NavHost(
                         navController = navController,
-                        startDestination = HomeContainer.route,
+                        startDestination = home.route,
                         modifier = Modifier.padding(paddingValues),
                     ) {
-                        HomeContainer.build(this)
+                        home.build(this)
                         ForecastContainer.build(this)
                     }
                 },

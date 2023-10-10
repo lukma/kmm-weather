@@ -25,14 +25,20 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.lukmadev.apps.weather.R
+import com.lukmadev.apps.weather.feature.forecast.toCityArg
 import com.lukmadev.apps.weather.ui.theme.WeatherTheme
 import com.lukmadev.core.domain.geocoding.City
 import com.lukmadev.uikit.containment.ErrorView
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 
 @Composable
 fun HomeView(
     uiState: HomeUiState,
     onSendEvent: (HomeUiEvent) -> Unit,
+    navigateTo: (String) -> Unit,
 ) {
     Column(
         Modifier
@@ -72,6 +78,16 @@ fun HomeView(
                     CityItemView(
                         item = it,
                         toggle = { selected -> onSendEvent(HomeUiEvent.ToggleFavorite(selected)) },
+                        showDailyForecast = { city ->
+                            navigateTo(
+                                object : KoinComponent {
+                                    fun generateLink(): String {
+                                        val cityArg = get<Json>().encodeToString(city.toCityArg())
+                                        return "forecast/$cityArg"
+                                    }
+                                }.generateLink()
+                            )
+                        },
                         modifier = Modifier.fillMaxWidth(),
                     )
 
@@ -83,7 +99,11 @@ fun HomeView(
                 }
             }
         } else {
-            ConstraintLayout(Modifier.fillMaxWidth().weight(1.0f)) {
+            ConstraintLayout(
+                Modifier
+                    .fillMaxWidth()
+                    .weight(1.0f)
+            ) {
                 val (error) = createRefs()
 
                 ErrorView(
@@ -122,6 +142,7 @@ private fun DefaultPreview() {
                 ),
             ),
             onSendEvent = { /* no-op */ },
+            navigateTo = { /* no-op */ },
         )
     }
 }
