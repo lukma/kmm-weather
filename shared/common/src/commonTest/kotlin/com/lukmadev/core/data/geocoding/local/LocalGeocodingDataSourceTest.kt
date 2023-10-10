@@ -6,6 +6,7 @@ import com.lukmadev.core.data.geocoding.GeocodingDataSource
 import com.lukmadev.core.domain.common.exception.DatabaseError
 import com.lukmadev.core.util.DatabaseTest
 import com.lukmadev.core.util.TestSamples
+import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.test.runTest
 import org.koin.test.get
 import org.koin.test.inject
@@ -50,6 +51,37 @@ class LocalGeocodingDataSourceTest : DatabaseTest {
             dataSource.markCityAsFavorite(
                 city = TestSamples.cities.first(),
             )
+        }
+
+        // then
+        assertFailsWith<DatabaseError> { actual.getOrThrow() }
+    }
+
+    @Test
+    fun perform_getFavoriteCities_got_value() = runTest {
+        // given
+        database.transaction {
+            TestSamples.cities.forEach {
+                database.favoriteCityQueries.upsert(favoriteCityTable = it.toFavoriteCityTable())
+            }
+        }
+
+        // when
+        val actual = dataSource.getFavoriteCities().single()
+
+        // then
+        val expected = TestSamples.cities
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun perform_getFavoriteCities_got_failure() = runTest {
+        // given
+        driver.close()
+
+        // when
+        val actual = runCatching {
+            dataSource.getFavoriteCities().single()
         }
 
         // then
