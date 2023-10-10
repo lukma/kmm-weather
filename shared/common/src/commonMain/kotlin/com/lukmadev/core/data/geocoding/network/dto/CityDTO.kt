@@ -13,7 +13,7 @@ internal data class CityDTO(
     @SerialName("lon")
     val longitude: Double,
     @SerialName("state")
-    val state: String?,
+    val state: String? = null,
     @SerialName("country")
     val country: String,
 )
