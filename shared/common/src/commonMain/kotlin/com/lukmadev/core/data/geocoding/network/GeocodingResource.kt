@@ -4,12 +4,12 @@ import io.ktor.resources.*
 import kotlinx.serialization.Serializable
 
 @Serializable
-@Resource("/geo/1.0/direct")
+@Resource("/geo/1.0/")
 internal class GeocodingResource {
 
     @Serializable
-    @Resource("")
-    class List(
+    @Resource("direct")
+    class Direct(
         val parent: GeocodingResource = GeocodingResource(),
         val limit: Int = LIMIT,
         val q: String?,

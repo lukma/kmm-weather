@@ -16,7 +16,7 @@ internal class NetworkGeocodingDataSource(
 
     override suspend fun findCities(query: String?): Flow<List<City>> {
         return flow {
-            val resource = GeocodingResource.List(q = query)
+            val resource = GeocodingResource.Direct(q = query)
             val response = httpClient.get(resource)
                 .body<List<CityDTO>>()
                 .map { it.toCity() }

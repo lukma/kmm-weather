@@ -18,7 +18,7 @@ object TestSamples {
 
     val dailyForecast = listOf(
         DailyForecast(
-            date = Instant.parse("2023-12-31T12:00:00.000124Z"),
+            date = Instant.parse("2023-10-09T15:00:00.000Z"),
             temperature = 302.11,
             humidity = 79.0,
             wind = Wind(
