@@ -12,9 +12,9 @@ internal val useCaseModule = module {
 
     // Geocoding
     factoryOf(::FindCitiesUseCase)
+    factoryOf(::MarkCityAsFavoriteUseCase)
+    factoryOf(::GetFavoriteCitiesUseCase)
 
     // Forecast
     factoryOf(::GetDailyForecastUseCase)
-    factoryOf(::MarkCityAsFavoriteUseCase)
-    factoryOf(::GetFavoriteCitiesUseCase)
 }
