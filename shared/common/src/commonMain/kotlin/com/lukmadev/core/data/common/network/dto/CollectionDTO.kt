@@ -1,4 +1,4 @@
-package com.lukmadev.core.data.common.dto
+package com.lukmadev.core.data.common.network.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

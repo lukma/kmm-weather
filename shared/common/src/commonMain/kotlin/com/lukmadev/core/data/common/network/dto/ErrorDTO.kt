@@ -1,4 +1,4 @@
-package com.lukmadev.core.data.common.dto
+package com.lukmadev.core.data.common.network.dto
 
 import com.lukmadev.core.domain.common.exception.ClientRequestError
 import kotlinx.serialization.SerialName

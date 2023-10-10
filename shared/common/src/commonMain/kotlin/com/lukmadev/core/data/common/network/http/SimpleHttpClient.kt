@@ -1,7 +1,7 @@
 package com.lukmadev.core.data.common.network.http
 
-import com.lukmadev.core.data.common.dto.ErrorDTO
-import com.lukmadev.core.data.common.dto.toApiError
+import com.lukmadev.core.data.common.network.dto.ErrorDTO
+import com.lukmadev.core.data.common.network.dto.toApiError
 import com.lukmadev.core.domain.common.exception.SerializationError
 import com.lukmadev.core.domain.common.exception.ServerResponseError
 import io.ktor.client.*

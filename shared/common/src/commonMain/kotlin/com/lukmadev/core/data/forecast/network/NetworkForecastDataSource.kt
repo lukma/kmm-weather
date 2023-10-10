@@ -1,6 +1,6 @@
 package com.lukmadev.core.data.forecast.network
 
-import com.lukmadev.core.data.common.dto.CollectionDTO
+import com.lukmadev.core.data.common.network.dto.CollectionDTO
 import com.lukmadev.core.data.forecast.ForecastDataSource
 import com.lukmadev.core.data.forecast.network.dto.DailyForecastDTO
 import com.lukmadev.core.data.forecast.network.dto.toDailyForecast
