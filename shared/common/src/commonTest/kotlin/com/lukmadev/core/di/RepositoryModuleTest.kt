@@ -1,5 +1,6 @@
 package com.lukmadev.core.di
 
+import com.lukmadev.core.domain.forecast.ForecastRepository
 import com.lukmadev.core.domain.geocoding.GeocodingRepository
 import com.lukmadev.core.util.ModuleTest
 import org.koin.test.get
@@ -14,6 +15,17 @@ class RepositoryModuleTest : ModuleTest {
         // when
         val component1 = get<GeocodingRepository>()
         val component2 = get<GeocodingRepository>()
+
+        // then
+        assertNotNull(component1)
+        assertEquals(component1, component2)
+    }
+
+    @Test
+    fun should_inject_ForecastRepository() {
+        // when
+        val component1 = get<ForecastRepository>()
+        val component2 = get<ForecastRepository>()
 
         // then
         assertNotNull(component1)
