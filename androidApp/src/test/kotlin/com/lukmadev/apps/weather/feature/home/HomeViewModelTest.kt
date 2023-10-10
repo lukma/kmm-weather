@@ -9,10 +9,13 @@ import com.lukmadev.core.domain.geocoding.usecase.ToggleFavoriteCityUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
 class HomeViewModelTest {
@@ -59,13 +62,14 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun `send event TypeQuery with any query`() {
+    fun `send event TypeQuery with any query`() = runTest {
         // given
         coEvery { findCitiesUseCase(any()) } returns flowOf(TestSamples.allCities)
         coEvery { getFavoriteCitiesUseCase() } returns flowOf(TestSamples.favoriteCities)
 
         // when
         viewModel.sendEvent(HomeUiEvent.TypeQuery(query = TestSamples.allCities.first().name))
+        delay(TimeUnit.SECONDS.toMillis(3))
         val actual = viewModel.uiState.value
 
         // then
@@ -132,7 +136,7 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun `send event ToggleFavorite in search result`() {
+    fun `send event ToggleFavorite in search result`() = runTest {
         // given
         coEvery { findCitiesUseCase(any()) } returns flowOf(TestSamples.allCities)
         coEvery { getFavoriteCitiesUseCase() } returns flowOf(TestSamples.favoriteCities)
@@ -140,6 +144,7 @@ class HomeViewModelTest {
 
         // when
         viewModel.sendEvent(HomeUiEvent.TypeQuery(query = TestSamples.allCities.first().name))
+        delay(TimeUnit.SECONDS.toMillis(3))
         viewModel.sendEvent(HomeUiEvent.ToggleFavorite(city = TestSamples.allCities.last()))
         val actual = viewModel.uiState.value
 

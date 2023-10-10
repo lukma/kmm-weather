@@ -7,6 +7,8 @@ import com.lukmadev.core.domain.geocoding.City
 import com.lukmadev.core.domain.geocoding.usecase.FindCitiesUseCase
 import com.lukmadev.core.domain.geocoding.usecase.GetFavoriteCitiesUseCase
 import com.lukmadev.core.domain.geocoding.usecase.ToggleFavoriteCityUseCase
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,6 +17,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 
 class HomeViewModel(
     private val findCitiesUseCase: FindCitiesUseCase,
@@ -26,6 +29,8 @@ class HomeViewModel(
     val uiState: StateFlow<HomeUiState> get() = _uiState
 
     private val uiEvent = MutableSharedFlow<HomeUiEvent>()
+
+    private var queryJob: Job? = null
 
     init {
         viewModelScope.launch { uiEvent.collect(::handleEvent) }
@@ -58,23 +63,27 @@ class HomeViewModel(
     private suspend fun onQueryChanged(query: String) {
         if (uiState.value.query != query && query.isNotBlank()) {
             _uiState.update { it.copy(query = query) }
-            val param = FindCitiesUseCase.Param(query)
-            combine(
-                getFavoriteCitiesUseCase(),
-                findCitiesUseCase(param),
-            ) { favoritesResult, findResult ->
-                findResult.map { city ->
-                    CityListItemModel(
-                        city = city,
-                        isFavorite = favoritesResult.any {
-                            city.latitude == it.latitude && city.longitude == it.longitude
-                        },
-                    )
+            queryJob?.cancel()
+            queryJob = viewModelScope.launch {
+                delay(TimeUnit.SECONDS.toMillis(2))
+                val param = FindCitiesUseCase.Param(query)
+                combine(
+                    getFavoriteCitiesUseCase(),
+                    findCitiesUseCase(param),
+                ) { favoritesResult, findResult ->
+                    findResult.map { city ->
+                        CityListItemModel(
+                            city = city,
+                            isFavorite = favoritesResult.any {
+                                city.latitude == it.latitude && city.longitude == it.longitude
+                            },
+                        )
+                    }
                 }
+                    .collectLatest { cities ->
+                        _uiState.update { it.copy(listOfCities = cities) }
+                    }
             }
-                .collectLatest { cities ->
-                    _uiState.update { it.copy(listOfCities = cities) }
-                }
         } else if (uiState.value.query != query && query.isBlank()) {
             _uiState.update { it.copy(query = query) }
             showFavoriteCities()
