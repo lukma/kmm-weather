@@ -13,11 +13,16 @@ internal class LocalGeocodingDataSource(
     private val database: AppDatabase,
 ) : GeocodingDataSource {
 
-    override suspend fun markCityAsFavorite(city: City) {
+    override suspend fun toggleFavoriteCity(city: City) {
         try {
             database.transaction {
                 with(database.favoriteCityQueries) {
-                    upsert(favoriteCityTable = city.toFavoriteCityTable())
+                    val favoriteCityTable = city.toFavoriteCityTable()
+                    if (findById(favoriteCityTable.id).awaitAsList().isEmpty()) {
+                        insert(favoriteCityTable = city.toFavoriteCityTable())
+                    } else {
+                        delete(favoriteCityTable.id)
+                    }
                 }
             }
         } catch (cause: Exception) {

@@ -4,12 +4,12 @@ import com.lukmadev.core.domain.common.usecase.SimpleUseCase
 import com.lukmadev.core.domain.geocoding.City
 import com.lukmadev.core.domain.geocoding.GeocodingRepository
 
-class MarkCityAsFavoriteUseCase internal constructor(
+class ToggleFavoriteCityUseCase internal constructor(
     private val geocodingRepository: GeocodingRepository,
-) : SimpleUseCase<MarkCityAsFavoriteUseCase.Param, Unit>() {
+) : SimpleUseCase<ToggleFavoriteCityUseCase.Param, Unit>() {
 
     override suspend fun build() {
-        return geocodingRepository.markCityAsFavorite(
+        return geocodingRepository.toggleFavoriteCity(
             city = param.city,
         )
     }

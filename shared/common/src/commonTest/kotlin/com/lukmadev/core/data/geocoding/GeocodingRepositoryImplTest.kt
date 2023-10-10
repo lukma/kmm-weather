@@ -57,29 +57,29 @@ class GeocodingRepositoryImplTest {
     }
 
     @Test
-    fun perform_markCityAsFavorite_got_success() = runTest {
+    fun perform_toggleFavoriteCity_got_success() = runTest {
         // given
-        coJustRun { localGeocodingDataSource.markCityAsFavorite(any()) }
+        coJustRun { localGeocodingDataSource.toggleFavoriteCity(any()) }
 
         // when
-        repository.markCityAsFavorite(
+        repository.toggleFavoriteCity(
             city = TestSamples.cities.first(),
         )
 
         // then
         coVerify(exactly = 1) {
-            localGeocodingDataSource.markCityAsFavorite(city = TestSamples.cities.first())
+            localGeocodingDataSource.toggleFavoriteCity(city = TestSamples.cities.first())
         }
     }
 
     @Test
-    fun perform_markCityAsFavorite_got_failure() = runTest {
+    fun perform_toggleFavoriteCity_got_failure() = runTest {
         // given
-        coEvery { networkGeocodingDataSource.markCityAsFavorite(any()) } answers { error("fail") }
+        coEvery { networkGeocodingDataSource.toggleFavoriteCity(any()) } answers { error("fail") }
 
         // when
         val actual = runCatching {
-            repository.markCityAsFavorite(
+            repository.toggleFavoriteCity(
                 city = TestSamples.cities.first(),
             )
         }

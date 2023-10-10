@@ -12,17 +12,17 @@ import kotlinx.coroutines.test.runTest
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
 
-class MarkCityAsFavoriteUseCaseTest {
+class ToggleFavoriteCityUseCaseTest {
     private val geocodingRepository: GeocodingRepository = mockk()
-    private val useCase = MarkCityAsFavoriteUseCase(geocodingRepository)
-    private val useCaseParam = MarkCityAsFavoriteUseCase.Param(
+    private val useCase = ToggleFavoriteCityUseCase(geocodingRepository)
+    private val useCaseParam = ToggleFavoriteCityUseCase.Param(
         city = TestSamples.cities.first(),
     )
 
     @Test
     fun perform_invoke_got_success() = runTest {
         // given
-        coJustRun { geocodingRepository.markCityAsFavorite(any()) }
+        coJustRun { geocodingRepository.toggleFavoriteCity(any()) }
 
         // when
         val actual = useCase(useCaseParam)
@@ -31,7 +31,7 @@ class MarkCityAsFavoriteUseCaseTest {
         val expected = Result.Success(Unit)
         assertEquals(expected, actual)
         coVerify {
-            geocodingRepository.markCityAsFavorite(
+            geocodingRepository.toggleFavoriteCity(
                 city = useCaseParam.city,
             )
         }
@@ -40,7 +40,7 @@ class MarkCityAsFavoriteUseCaseTest {
     @Test
     fun perform_invoke_got_failure() = runTest {
         // given
-        coEvery { geocodingRepository.markCityAsFavorite(any()) } answers { error("fail") }
+        coEvery { geocodingRepository.toggleFavoriteCity(any()) } answers { error("fail") }
 
         // when
         val actual = useCase(useCaseParam)

@@ -7,10 +7,19 @@ CREATE TABLE favoriteCityTable (
   country TEXT NOT NULL
 );
 
-upsert:
-INSERT OR REPLACE INTO favoriteCityTable
-VALUES ?;
+findById:
+SELECT *
+FROM favoriteCityTable
+WHERE id=?;
 
 finds:
 SELECT *
 FROM favoriteCityTable;
+
+insert:
+INSERT INTO favoriteCityTable
+VALUES ?;
+
+delete:
+DELETE FROM favoriteCityTable
+WHERE id=?;

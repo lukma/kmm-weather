@@ -14,6 +14,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertTrue
 
 class LocalGeocodingDataSourceTest : DatabaseTest {
     private val driver: SqlDriver by inject()
@@ -27,9 +28,9 @@ class LocalGeocodingDataSourceTest : DatabaseTest {
     }
 
     @Test
-    fun perform_markCityAsFavorite_got_success() = runTest {
+    fun perform_toggleFavoriteCity_when_initial_toggle_got_success() = runTest {
         // when
-        dataSource.markCityAsFavorite(
+        dataSource.toggleFavoriteCity(
             city = TestSamples.cities.first(),
         )
         val actual = database.favoriteCityQueries
@@ -42,13 +43,34 @@ class LocalGeocodingDataSourceTest : DatabaseTest {
     }
 
     @Test
-    fun perform_markCityAsFavorite_got_failure() = runTest {
+    fun perform_toggleFavoriteCity_when_next_toggle_got_success() = runTest {
+        // given
+        database.transaction {
+            TestSamples.cities.forEach {
+                database.favoriteCityQueries.insert(favoriteCityTable = it.toFavoriteCityTable())
+            }
+        }
+
+        // when
+        dataSource.toggleFavoriteCity(
+            city = TestSamples.cities.first(),
+        )
+        val actual = database.favoriteCityQueries
+            .finds(::mapCity)
+            .executeAsList()
+
+        // then
+        assertTrue(actual.isEmpty())
+    }
+
+    @Test
+    fun perform_toggleFavoriteCity_got_failure() = runTest {
         // given
         driver.close()
 
         // when
         val actual = runCatching {
-            dataSource.markCityAsFavorite(
+            dataSource.toggleFavoriteCity(
                 city = TestSamples.cities.first(),
             )
         }
@@ -62,7 +84,7 @@ class LocalGeocodingDataSourceTest : DatabaseTest {
         // given
         database.transaction {
             TestSamples.cities.forEach {
-                database.favoriteCityQueries.upsert(favoriteCityTable = it.toFavoriteCityTable())
+                database.favoriteCityQueries.insert(favoriteCityTable = it.toFavoriteCityTable())
             }
         }
 

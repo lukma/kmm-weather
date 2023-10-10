@@ -3,7 +3,7 @@ package com.lukmadev.core.di
 import com.lukmadev.core.domain.forecast.usecase.GetDailyForecastUseCase
 import com.lukmadev.core.domain.geocoding.usecase.FindCitiesUseCase
 import com.lukmadev.core.domain.geocoding.usecase.GetFavoriteCitiesUseCase
-import com.lukmadev.core.domain.geocoding.usecase.MarkCityAsFavoriteUseCase
+import com.lukmadev.core.domain.geocoding.usecase.ToggleFavoriteCityUseCase
 import com.lukmadev.core.util.ModuleTest
 import org.koin.test.get
 import kotlin.test.Test
@@ -25,10 +25,10 @@ class UseCaseModuleTest : ModuleTest {
     }
 
     @Test
-    fun should_inject_MarkCityAsFavoriteUseCase() {
+    fun should_inject_ToggleFavoriteCityUseCase() {
         // when
-        val component1 = get<MarkCityAsFavoriteUseCase>()
-        val component2 = get<MarkCityAsFavoriteUseCase>()
+        val component1 = get<ToggleFavoriteCityUseCase>()
+        val component2 = get<ToggleFavoriteCityUseCase>()
 
         // then
         assertNotNull(component1)
