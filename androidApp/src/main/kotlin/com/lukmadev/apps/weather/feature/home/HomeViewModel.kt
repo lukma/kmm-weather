@@ -12,6 +12,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
@@ -42,6 +43,10 @@ class HomeViewModel(
     private suspend fun handleEvent(event: HomeUiEvent) {
         when (event) {
             is HomeUiEvent.ShowFavoriteCities -> showFavoriteCities()
+            is HomeUiEvent.ReloadFindCities -> {
+                _uiState.update { it.copy(error = null) }
+                findCities()
+            }
             is HomeUiEvent.TypeQuery -> onQueryChanged(query = event.query)
             is HomeUiEvent.ToggleFavorite -> toggleFavorite(city = event.city)
         }
@@ -65,31 +70,37 @@ class HomeViewModel(
             queryJob?.cancel()
             queryJob = viewModelScope.launch {
                 delay(DEBOUNCE_FETCH_NETWORK)
-
-                _uiState.update { it.copy(listOfCities = listOf(CityListItemModel.Loading)) }
-
-                val param = FindCitiesUseCase.Param(query)
-                combine(
-                    getFavoriteCitiesUseCase(),
-                    findCitiesUseCase(param),
-                ) { favoritesResult, findResult ->
-                    findResult.map { city ->
-                        CityListItemModel.Loaded(
-                            city = city,
-                            isFavorite = favoritesResult.any {
-                                city.latitude == it.latitude && city.longitude == it.longitude
-                            },
-                        )
-                    }
-                }
-                    .collectLatest { cities ->
-                        _uiState.update { it.copy(listOfCities = cities) }
-                    }
+                findCities()
             }
         } else if (uiState.value.query != query && query.isBlank()) {
             _uiState.update { it.copy(query = query) }
             showFavoriteCities()
         }
+    }
+
+    private suspend fun findCities() {
+        _uiState.update { it.copy(listOfCities = listOf(CityListItemModel.Loading)) }
+
+        val param = FindCitiesUseCase.Param(uiState.value.query)
+        combine(
+            getFavoriteCitiesUseCase(),
+            findCitiesUseCase(param),
+        ) { favoritesResult, findResult ->
+            findResult.map { city ->
+                CityListItemModel.Loaded(
+                    city = city,
+                    isFavorite = favoritesResult.any {
+                        city.latitude == it.latitude && city.longitude == it.longitude
+                    },
+                )
+            }
+        }
+            .catch { cause ->
+                _uiState.update { it.copy(error = cause) }
+            }
+            .collectLatest { cities ->
+                _uiState.update { it.copy(listOfCities = cities) }
+            }
     }
 
     private suspend fun toggleFavorite(city: City) {

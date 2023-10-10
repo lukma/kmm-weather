@@ -22,9 +22,12 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import com.lukmadev.apps.weather.R
 import com.lukmadev.apps.weather.ui.theme.WeatherTheme
 import com.lukmadev.core.domain.geocoding.City
+import com.lukmadev.uikit.containment.ErrorView
 
 @Composable
 fun HomeView(
@@ -63,18 +66,36 @@ fun HomeView(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        LazyColumn {
-            items(uiState.listOfCities) {
-                CityItemView(
-                    item = it,
-                    toggle = { selected -> onSendEvent(HomeUiEvent.ToggleFavorite(selected)) },
-                    modifier = Modifier.fillMaxWidth(),
-                )
+        if (uiState.error == null) {
+            LazyColumn {
+                items(uiState.listOfCities) {
+                    CityItemView(
+                        item = it,
+                        toggle = { selected -> onSendEvent(HomeUiEvent.ToggleFavorite(selected)) },
+                        modifier = Modifier.fillMaxWidth(),
+                    )
 
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(8.dp)
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(8.dp)
+                    )
+                }
+            }
+        } else {
+            ConstraintLayout(Modifier.fillMaxWidth().weight(1.0f)) {
+                val (error) = createRefs()
+
+                ErrorView(
+                    error = uiState.error,
+                    onRetry = { onSendEvent(HomeUiEvent.ReloadFindCities) },
+                    modifier = Modifier.constrainAs(error) {
+                        start.linkTo(parent.start)
+                        top.linkTo(parent.top, margin = 48.dp)
+                        end.linkTo(parent.end)
+                        width = Dimension.fillToConstraints
+                        height = Dimension.wrapContent
+                    },
                 )
             }
         }
