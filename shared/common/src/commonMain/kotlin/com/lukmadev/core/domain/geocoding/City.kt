@@ -6,4 +6,7 @@ data class City(
     val longitude: Double,
     val state: String?,
     val country: String,
-)
+) {
+
+    val id = "$latitude$longitude"
+}

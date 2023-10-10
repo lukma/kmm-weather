@@ -19,7 +19,7 @@ internal fun mapCity(
 )
 
 internal fun City.toFavoriteCityTable() = FavoriteCityTable(
-    id = "$latitude$longitude",
+    id = id,
     name = name,
     latitude = latitude,
     longitude = longitude,

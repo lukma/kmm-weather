@@ -15,7 +15,7 @@ object TestSamples {
             country = "ID",
         ),
         City(
-            name = "Semarang",
+            name = "Sungai Serut",
             latitude = -3.7833248,
             longitude = 102.2962039,
             state = "Bengkulu",

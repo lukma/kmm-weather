@@ -69,7 +69,7 @@ class HomeViewModelTest {
 
         // when
         viewModel.sendEvent(HomeUiEvent.TypeQuery(query = TestSamples.allCities.first().name))
-        delay(TimeUnit.SECONDS.toMillis(3))
+        delay(TimeUnit.SECONDS.toMillis(2))
         val actual = viewModel.uiState.value
 
         // then
@@ -144,7 +144,7 @@ class HomeViewModelTest {
 
         // when
         viewModel.sendEvent(HomeUiEvent.TypeQuery(query = TestSamples.allCities.first().name))
-        delay(TimeUnit.SECONDS.toMillis(3))
+        delay(TimeUnit.SECONDS.toMillis(2))
         viewModel.sendEvent(HomeUiEvent.ToggleFavorite(city = TestSamples.allCities.last()))
         val actual = viewModel.uiState.value
 
