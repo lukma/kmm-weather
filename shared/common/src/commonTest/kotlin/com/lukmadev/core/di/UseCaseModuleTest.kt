@@ -1,6 +1,7 @@
 package com.lukmadev.core.di
 
 import com.lukmadev.core.domain.geocoding.usecase.FindCitiesUseCase
+import com.lukmadev.core.domain.geocoding.usecase.MarkCityAsFavoriteUseCase
 import com.lukmadev.core.util.ModuleTest
 import org.koin.test.get
 import kotlin.test.Test
@@ -14,6 +15,18 @@ class UseCaseModuleTest : ModuleTest {
         // when
         val component1 = get<FindCitiesUseCase>()
         val component2 = get<FindCitiesUseCase>()
+
+        // then
+        assertNotNull(component1)
+        assertNotNull(component2)
+        assertNotEquals(component1, component2)
+    }
+
+    @Test
+    fun should_inject_MarkCityAsFavoriteUseCase() {
+        // when
+        val component1 = get<MarkCityAsFavoriteUseCase>()
+        val component2 = get<MarkCityAsFavoriteUseCase>()
 
         // then
         assertNotNull(component1)

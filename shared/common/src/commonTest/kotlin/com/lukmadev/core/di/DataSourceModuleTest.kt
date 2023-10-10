@@ -12,6 +12,18 @@ import kotlin.test.assertNotNull
 class DataSourceModuleTest : ModuleTest {
 
     @Test
+    fun should_inject_Local_GeocodingDataSource() {
+        // when
+        val component1 = get<GeocodingDataSource>(named(DataSourceQualifier.Local))
+        val component2 = get<GeocodingDataSource>(named(DataSourceQualifier.Local))
+
+        // then
+        assertNotNull(component1)
+        assertNotNull(component2)
+        assertNotEquals(component1, component2)
+    }
+
+    @Test
     fun should_inject_Network_GeocodingDataSource() {
         // when
         val component1 = get<GeocodingDataSource>(named(DataSourceQualifier.Network))

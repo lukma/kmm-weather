@@ -14,8 +14,8 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFails
 
 class FindCitiesUseCaseTest {
-    private val productRepository: GeocodingRepository = mockk()
-    private val useCase = FindCitiesUseCase(productRepository)
+    private val geocodingRepository: GeocodingRepository = mockk()
+    private val useCase = FindCitiesUseCase(geocodingRepository)
     private val useCaseParam = FindCitiesUseCase.Param(
         query = TestSamples.cities.first().name,
     )
@@ -23,9 +23,7 @@ class FindCitiesUseCaseTest {
     @Test
     fun perform_invoke_got_value() = runTest {
         // given
-        coEvery {
-            productRepository.findCities(any())
-        } returns flowOf(TestSamples.cities)
+        coEvery { geocodingRepository.findCities(any()) } returns flowOf(TestSamples.cities)
 
         // when
         val actual = useCase(useCaseParam).single()
@@ -34,7 +32,7 @@ class FindCitiesUseCaseTest {
         val expected = TestSamples.cities
         assertEquals(expected, actual)
         coVerify {
-            productRepository.findCities(
+            geocodingRepository.findCities(
                 query = useCaseParam.query,
             )
         }
@@ -43,9 +41,7 @@ class FindCitiesUseCaseTest {
     @Test
     fun perform_invoke_got_failure() = runTest {
         // given
-        coEvery {
-            productRepository.findCities(any())
-        } returns flow { error("fail") }
+        coEvery { geocodingRepository.findCities(any()) } returns flow { error("fail") }
 
         // when
         val actual = runCatching {

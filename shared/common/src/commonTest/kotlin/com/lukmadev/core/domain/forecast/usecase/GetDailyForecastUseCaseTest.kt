@@ -45,9 +45,7 @@ class GetDailyForecastUseCaseTest {
     @Test
     fun perform_invoke_got_failure() = runTest {
         // given
-        coEvery {
-            forecastRepository.getDailyForecast(any(), any())
-        } returns flow { error("fail") }
+        coEvery { forecastRepository.getDailyForecast(any(), any()) } returns flow { error("fail") }
 
         // when
         val actual = runCatching {

@@ -12,13 +12,14 @@ internal val repositoryModule = module {
 
     single<GeocodingRepository> {
         GeocodingRepositoryImpl(
-            get(named(DataSourceQualifier.Network)),
+            localGeocodingDataSource = get(named(DataSourceQualifier.Local)),
+            networkGeocodingDataSource = get(named(DataSourceQualifier.Network)),
         )
     }
 
     single<ForecastRepository> {
         ForecastRepositoryImpl(
-            get(named(DataSourceQualifier.Network)),
+            networkForecastDataSource = get(named(DataSourceQualifier.Network)),
         )
     }
 }
