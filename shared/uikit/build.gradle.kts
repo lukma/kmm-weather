@@ -17,6 +17,7 @@ kotlin {
                 implementation(libs.constraint.compose)
                 implementation(libs.material3.compose)
                 implementation(libs.navigation.compose)
+                implementation(libs.accompanist.placeholder)
             }
         }
     }
