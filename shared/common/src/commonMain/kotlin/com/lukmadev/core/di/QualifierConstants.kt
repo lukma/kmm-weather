@@ -10,9 +10,3 @@ internal object DataSourceQualifier {
     const val Local = "LocalDataSource"
     const val Network = "NetworkDataSource"
 }
-
-internal object DatabaseQualifier {
-    object TableAdapter {
-        const val FavoriteCity = "FavoriteCity"
-    }
-}

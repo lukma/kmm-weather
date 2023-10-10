@@ -2,14 +2,12 @@ package com.lukmadev.core.util
 
 import app.cash.sqldelight.db.SqlDriver
 import com.lukmadev.core.data.db.AppDatabase
-import com.lukmadev.core.di.DatabaseQualifier
 import com.lukmadev.core.di.commonModule
 import com.lukmadev.core.di.databaseModule
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.get
@@ -28,7 +26,6 @@ interface DatabaseTest : KoinTest {
                     AppDatabase.Schema.create(get())
                     AppDatabase(
                         get(),
-                        get(named(DatabaseQualifier.TableAdapter.FavoriteCity)),
                     )
                 }
             }
