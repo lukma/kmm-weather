@@ -4,6 +4,6 @@ data class City(
     val name: String,
     val latitude: Double,
     val longitude: Double,
-    val state: String,
+    val state: String?,
     val country: String,
 )

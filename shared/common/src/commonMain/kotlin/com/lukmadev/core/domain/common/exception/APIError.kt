@@ -7,7 +7,7 @@ data class DatabaseError(override val cause: Throwable) : APIError(cause.message
 data class SerializationError(override val cause: Throwable) : APIError(cause.message.toString())
 
 data class ClientRequestError(
-    val code: ErrorCode,
+    val code: String,
     override val message: String,
 ) : APIError(message)
 
