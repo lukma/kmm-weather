@@ -110,7 +110,29 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun `send event ToggleFavorite when initial toggle`() {
+    fun `send event ToggleFavorite in favorite cities`() {
+        // given
+        coEvery { getFavoriteCitiesUseCase() } returns flowOf(TestSamples.favoriteCities)
+        coEvery { toggleFavoriteCityUseCase(any()) } returns Result.Success(Unit)
+
+        // when
+        viewModel.sendEvent(HomeUiEvent.ShowFavoriteCities)
+        viewModel.sendEvent(HomeUiEvent.ToggleFavorite(city = TestSamples.favoriteCities.last()))
+        val actual = viewModel.uiState.value
+
+        // then
+        val expected = HomeUiState(
+            query = TestSamples.allCities.first().name,
+            listOfCities = emptyList(),
+        )
+        assertEquals(expected.listOfCities.map { it.isFavorite }, actual.listOfCities.map { it.isFavorite })
+        coVerify(exactly = 1) {
+            toggleFavoriteCityUseCase(any())
+        }
+    }
+
+    @Test
+    fun `send event ToggleFavorite in search result`() {
         // given
         coEvery { findCitiesUseCase(any()) } returns flowOf(TestSamples.allCities)
         coEvery { getFavoriteCitiesUseCase() } returns flowOf(TestSamples.favoriteCities)

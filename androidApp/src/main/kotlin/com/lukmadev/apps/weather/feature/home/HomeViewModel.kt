@@ -87,11 +87,17 @@ class HomeViewModel(
             .onSuccess {
                 _uiState.update {
                     val index = it.listOfCities.map { item -> item.city }.indexOf(city)
-                    val selectedItem = it.listOfCities.getOrNull(index) ?: return@onSuccess
-                    val updatedListOfCities = it.listOfCities.toMutableList().apply {
-                        set(index, selectedItem.copy(isFavorite = !selectedItem.isFavorite))
+                    if (it.isShowSearchResult) {
+                        val selectedItem = it.listOfCities.getOrNull(index) ?: return@onSuccess
+                        val updatedListOfCities = it.listOfCities.toMutableList().apply {
+                            set(index, selectedItem.copy(isFavorite = !selectedItem.isFavorite))
+                        }
+                        it.copy(listOfCities = updatedListOfCities)
+                    } else {
+                        it.copy(listOfCities = it.listOfCities.toMutableList().apply {
+                            removeAt(index)
+                        })
                     }
-                    it.copy(listOfCities = updatedListOfCities)
                 }
             }
     }
