@@ -1,0 +1,116 @@
+[versions]
+kotlin = "1.9.10"
+kotlinx-coroutines = "1.7.3"
+kotlinx-serialization = "1.6.0"
+kotlinx-datetime = "0.4.1"
+kotlinx-kover = "0.6.1"
+kotlin-ksp = "1.9.10-1.0.13"
+nativecoroutines = "1.0.0-ALPHA-18"
+detekt = "1.23.1"
+detekt-compose = "0.0.26"
+mockk = "1.13.3"
+mockk-legacy = "1.12.5"
+koin = "3.4.3"
+koin-compose = "3.4.6"
+sqldelight = "2.0.0"
+ktor = "2.3.4"
+android-gradlePlugin = "8.1.2"
+androidx-startup = "1.2.0-alpha02"
+androidx-test-core = "1.6.0-alpha02"
+androidx-test-junit = "1.2.0-alpha01"
+androidx-tracing = "1.3.0-alpha02"
+lifecycle = "2.7.0-alpha02"
+compose-compiler = "1.5.3"
+compose-ui = "1.6.0-alpha07"
+activity-compose = "1.8.0"
+constraint = "1.1.0-alpha13"
+material2 = "1.6.0-alpha07"
+material3-compose = "1.2.0-alpha09"
+navigation = "2.7.4"
+coil = "2.4.0"
+accompanist = "0.33.2-alpha"
+junit = "4.13.2"
+
+[libraries]
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinx-datetime" }
+kotlinx-kover-gradlePlugin = { group = "org.jetbrains.kotlinx", name = "kover", version.ref = "kotlinx-kover" }
+detekt-gradlePlugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detekt" }
+detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detekt" }
+detekt-rules-libraries = { group = "io.gitlab.arturbosch.detekt", name = "detekt-rules-libraries", version.ref = "detekt" }
+detekt-rules-ruleauthors = { group = "io.gitlab.arturbosch.detekt", name = "detekt-rules-ruleauthors", version.ref = "detekt" }
+detekt-rules-compose = { group = "com.twitter.compose.rules", name = "detekt", version.ref = "detekt-compose" }
+mockk-core = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+mockk-common = { group = "io.mockk", name = "mockk-common", version.ref = "mockk-legacy" }
+mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
+koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
+koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
+koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin-compose" }
+koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koin" }
+sqldelight-runtime = { group = "app.cash.sqldelight", name = "runtime", version.ref = "sqldelight" }
+sqldelight-primitiveadapters = { group = "app.cash.sqldelight", name = "primitive-adapters", version.ref = "sqldelight" }
+sqldelight-coroutines = { group = "app.cash.sqldelight", name = "coroutines-extensions", version.ref = "sqldelight" }
+sqldelight-android = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqldelight" }
+sqldelight-native = { group = "app.cash.sqldelight", name = "native-driver", version.ref = "sqldelight" }
+sqldelight-sqlite = { group = "app.cash.sqldelight", name = "sqlite-driver", version.ref = "sqldelight" }
+sqldelight-dialect = { group = "app.cash.sqldelight", name = "sqlite-3-35-dialect", version.ref = "sqldelight" }
+ktor-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
+ktor-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
+ktor-darwin = { group = "io.ktor", name = "ktor-client-darwin", version.ref = "ktor" }
+ktor-contentnegotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-serialization = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-resources = { group = "io.ktor", name = "ktor-client-resources", version.ref = "ktor" }
+ktor-auth = { group = "io.ktor", name = "ktor-client-auth", version.ref = "ktor" }
+ktor-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
+ktor-mock = { group = "io.ktor", name = "ktor-client-mock", version.ref = "ktor" }
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "android-gradlePlugin" }
+androidx-startup = { group = "androidx.startup", name = "startup-runtime", version.ref = "androidx-startup" }
+androidx-test-core = { group = "androidx.test", name = "core-ktx", version.ref = "androidx-test-core" }
+androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-junit" }
+androidx-tracing = { group = "androidx.tracing", name = "tracing", version.ref = "androidx-tracing" }
+lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
+compose-ui-core = { group = "androidx.compose.ui", name = "ui", version.ref = "compose-ui" }
+compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "compose-ui" }
+compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "compose-ui" }
+compose-ui-test-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "compose-ui" }
+compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version.ref = "compose-ui" }
+activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
+constraint-compose = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraint" }
+material-compose-icon = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "material2" }
+material3-compose = { group = "androidx.compose.material3", name = "material3", version.ref = "material3-compose" }
+navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+accompanist-placeholder = { group = "com.google.accompanist", name = "accompanist-placeholder", version.ref = "accompanist" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+
+[bundles]
+classpath = [
+    "detekt.gradlePlugin"
+]
+sqldelight-common = [
+    "sqldelight.runtime",
+    "sqldelight.primitiveadapters",
+    "sqldelight.coroutines"
+]
+ktor-common = [
+    "ktor.core",
+    "ktor.contentnegotiation",
+    "ktor.serialization",
+    "ktor.resources",
+    "ktor.auth",
+    "ktor.logging"
+]
+
+[plugins]
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "kotlin-ksp" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+nativecoroutines = { id = "com.rickclephas.kmp.nativecoroutines", version.ref = "nativecoroutines" }
+sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
+android-application = { id = "com.android.application", version.ref = "android-gradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "android-gradlePlugin" }
