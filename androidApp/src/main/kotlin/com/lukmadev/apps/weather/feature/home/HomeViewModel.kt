@@ -47,6 +47,7 @@ class HomeViewModel(
                 _uiState.update { it.copy(error = null) }
                 findCities()
             }
+
             is HomeUiEvent.TypeQuery -> onQueryChanged(query = event.query)
             is HomeUiEvent.ToggleFavorite -> toggleFavorite(city = event.city)
         }
@@ -121,9 +122,11 @@ class HomeViewModel(
                         }
                         it.copy(listOfCities = updatedListOfCities)
                     } else {
-                        it.copy(listOfCities = it.listOfCities.toMutableList().apply {
-                            removeAt(index)
-                        })
+                        it.copy(
+                            listOfCities = it.listOfCities.toMutableList().apply {
+                                removeAt(index)
+                            }
+                        )
                     }
                 }
             }
