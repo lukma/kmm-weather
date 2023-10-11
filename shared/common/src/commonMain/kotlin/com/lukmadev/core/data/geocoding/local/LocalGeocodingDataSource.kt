@@ -33,8 +33,9 @@ internal class LocalGeocodingDataSource(
     override suspend fun getFavoriteCities(): Flow<List<City>> {
         return flow {
             val result = database.favoriteCityQueries
-                .finds(::mapCity)
+                .finds()
                 .awaitAsList()
+                .map { it.toCity() }
             emit(result)
         }.catch { throw DatabaseError(it) }
     }

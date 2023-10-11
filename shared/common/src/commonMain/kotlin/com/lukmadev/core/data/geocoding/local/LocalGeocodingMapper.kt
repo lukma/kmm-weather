@@ -3,14 +3,7 @@ package com.lukmadev.core.data.geocoding.local
 import com.lukmadev.core.data.db.FavoriteCityTable
 import com.lukmadev.core.domain.geocoding.City
 
-internal fun mapCity(
-    id: String,
-    name: String,
-    latitude: Double,
-    longitude: Double,
-    state: String?,
-    country: String,
-) = City(
+internal fun FavoriteCityTable.toCity() = City(
     name = name,
     latitude = latitude,
     longitude = longitude,

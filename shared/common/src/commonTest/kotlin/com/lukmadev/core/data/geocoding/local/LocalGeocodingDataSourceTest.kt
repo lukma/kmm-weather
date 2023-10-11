@@ -34,8 +34,9 @@ class LocalGeocodingDataSourceTest : DatabaseTest {
             city = TestSamples.cities.first(),
         )
         val actual = database.favoriteCityQueries
-            .finds(::mapCity)
+            .finds()
             .executeAsList()
+            .map { it.toCity() }
 
         // then
         val expected = TestSamples.cities
@@ -56,8 +57,9 @@ class LocalGeocodingDataSourceTest : DatabaseTest {
             city = TestSamples.cities.first(),
         )
         val actual = database.favoriteCityQueries
-            .finds(::mapCity)
+            .finds()
             .executeAsList()
+            .map { it.toCity() }
 
         // then
         assertTrue(actual.isEmpty())
