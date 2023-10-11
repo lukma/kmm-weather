@@ -28,9 +28,11 @@ fun CityItemView(
     showDailyForecast: (City) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    ConstraintLayout(modifier.clickable {
-        (item as? CityListItemModel.Loaded)?.city?.run { showDailyForecast(this) }
-    }) {
+    ConstraintLayout(
+        modifier = modifier.clickable {
+            (item as? CityListItemModel.Loaded)?.city?.run { showDailyForecast(this) }
+        }
+    ) {
         val (
             name,
             stateAndCountry,
