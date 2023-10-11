@@ -24,9 +24,10 @@ import com.lukmadev.uikit.containment.ErrorView
 fun ForecastView(
     uiState: ForecastUiState,
     onSendEvent: (ForecastUiEvent) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        Modifier
+        modifier
             .fillMaxSize()
             .padding(start = 16.dp, top = 16.dp, end = 16.dp)
     ) {
