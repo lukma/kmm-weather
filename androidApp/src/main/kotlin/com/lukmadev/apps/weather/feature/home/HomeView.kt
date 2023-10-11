@@ -39,9 +39,10 @@ fun HomeView(
     uiState: HomeUiState,
     onSendEvent: (HomeUiEvent) -> Unit,
     navigateTo: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        Modifier
+        modifier
             .fillMaxSize()
             .padding(start = 16.dp, top = 16.dp, end = 16.dp)
     ) {
