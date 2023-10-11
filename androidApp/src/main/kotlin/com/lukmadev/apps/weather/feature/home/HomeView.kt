@@ -137,7 +137,7 @@ private fun DefaultPreview() {
                             state = "Central Java",
                             country = "ID",
                         ),
-                        isFavorite = true
+                        isFavorite = true,
                     )
                 ),
             ),

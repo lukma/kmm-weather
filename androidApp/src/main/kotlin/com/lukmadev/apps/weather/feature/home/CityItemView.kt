@@ -107,7 +107,7 @@ private fun DefaultPreview() {
                     state = "Central Java",
                     country = "ID",
                 ),
-                isFavorite = false
+                isFavorite = false,
             ),
             toggle = { /* no-op */ },
             showDailyForecast = { /* no-op */ },
