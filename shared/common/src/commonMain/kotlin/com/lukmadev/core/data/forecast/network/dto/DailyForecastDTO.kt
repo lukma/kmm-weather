@@ -1,6 +1,7 @@
 package com.lukmadev.core.data.forecast.network.dto
 
 import com.lukmadev.core.domain.forecast.DailyForecast
+import com.lukmadev.core.domain.forecast.Wind
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -9,24 +10,32 @@ import kotlinx.serialization.Serializable
 data class DailyForecastDTO(
     @SerialName("dt")
     val date: Long,
-    @SerialName("main")
-    val main: Main,
-    @SerialName("wind")
-    val wind: WindDTO,
+    @SerialName("temp")
+    val temperature: Temperature,
+    @SerialName("humidity")
+    val humidity: Double,
+    @SerialName("wind_speed")
+    val speed: Double,
+    @SerialName("wind_deg")
+    val degrees: Double,
+    @SerialName("wind_gust")
+    val gust: Double,
 ) {
 
     @Serializable
-    data class Main(
-        @SerialName("temp")
-        val temperature: Double,
-        @SerialName("humidity")
-        val humidity: Double,
+    data class Temperature(
+        @SerialName("day")
+        val day: Double,
     )
 }
 
 internal fun DailyForecastDTO.toDailyForecast() = DailyForecast(
     date = Instant.fromEpochSeconds(date),
-    temperature = main.temperature,
-    humidity = main.humidity,
-    wind = wind.toWind(),
+    temperature = temperature.day,
+    humidity = humidity,
+    wind = Wind(
+        speed = speed,
+        degrees = degrees,
+        gust = gust,
+    ),
 )

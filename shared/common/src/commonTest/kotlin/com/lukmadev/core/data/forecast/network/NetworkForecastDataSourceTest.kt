@@ -31,19 +31,16 @@ class NetworkForecastDataSourceTest : HttpClientTest {
         apiClient.mockResponse(
             body = """
                 {
-                    "list": [
+                    "daily": [
                         {
                             "dt": 1696863600,
-                            "main": {
-                                "temp": 302.11,
-                                "humidity": 79
+                            "temp": {
+                                "day": 302.11
                             },
-                            "wind": {
-                                "speed": 1.21,
-                                "deg": 227,
-                                "gust": 1.41
-                            },
-                            "dt_txt": "2023-10-09 15:00:00"
+                            "humidity": 79,
+                            "wind_speed": 1.21,
+                            "wind_deg": 227,
+                            "wind_gust": 1.41
                         }
                     ]
                 }

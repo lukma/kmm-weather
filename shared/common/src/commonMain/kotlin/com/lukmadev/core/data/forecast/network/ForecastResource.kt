@@ -8,15 +8,17 @@ import kotlinx.serialization.Serializable
 internal class ForecastResource {
 
     @Serializable
-    @Resource("forecast")
-    class Forecast(
+    @Resource("onecall")
+    class Daily(
         val parent: ForecastResource = ForecastResource(),
-        val cnt: Int = CNT,
+        val units: String = UNITS,
+        val exclude: String = EXCLUDE,
         val lat: Double,
         val lon: Double,
     )
 
     companion object {
-        private const val CNT = 3
+        private const val UNITS = "metric"
+        private const val EXCLUDE = "current,minutely,hourly,alerts"
     }
 }
