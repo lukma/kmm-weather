@@ -70,18 +70,19 @@ class HomeViewModel(
             queryJob?.cancel()
             queryJob = viewModelScope.launch {
                 delay(DEBOUNCE_FETCH_NETWORK)
-                findCities()
+                findCities(query)
             }
         } else if (uiState.value.query != query && query.isBlank()) {
+            queryJob?.cancel()
             _uiState.update { it.copy(query = query) }
             showFavoriteCities()
         }
     }
 
-    private suspend fun findCities() {
+    private suspend fun findCities(query: String = uiState.value.query) {
         _uiState.update { it.copy(listOfCities = listOf(CityListItemModel.Loading)) }
 
-        val param = FindCitiesUseCase.Param(uiState.value.query)
+        val param = FindCitiesUseCase.Param(query)
         combine(
             getFavoriteCitiesUseCase(),
             findCitiesUseCase(param),
