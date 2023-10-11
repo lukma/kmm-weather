@@ -3,4 +3,6 @@
     <string name="textfield_search">Search…</string>
     <string name="label_favorite_city">Favorite Cities</string>
     <string name="label_search_result">Search Result</string>
+    <string name="label_humidity">Humidity</string>
+    <string name="label_wind_speed">Wind Speed</string>
 </resources>

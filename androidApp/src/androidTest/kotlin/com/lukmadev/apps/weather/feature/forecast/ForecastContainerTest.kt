@@ -1,5 +1,7 @@
 package com.lukmadev.apps.weather.feature.forecast
 
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
 import com.lukmadev.apps.weather.di.viewModelModule
 import com.lukmadev.apps.weather.util.KoinTestRule
@@ -60,5 +62,12 @@ class ForecastContainerTest : KoinTest {
 
     @Test
     fun display_content() {
+        // then
+        composeTestRule.onNode(hasText(TestSamples.allCities.first().name))
+            .assertIsDisplayed()
+        TestSamples.dailyForecast.forEach {
+            composeTestRule.onNode(hasText(it.temperature.toString(), substring = true))
+                .assertIsDisplayed()
+        }
     }
 }

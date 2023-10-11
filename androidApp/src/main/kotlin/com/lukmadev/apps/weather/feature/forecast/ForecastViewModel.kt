@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -41,14 +42,27 @@ class ForecastViewModel(
     }
 
     private suspend fun fetchDailyForecast() {
-        _uiState.update { it.copy(isLoading = true) }
+        _uiState.update {
+            it.copy(
+                dailyForecast = listOf(DailyForecastListItemModel.Loading),
+                isLoading = true,
+                error = null,
+            )
+        }
         val param = GetDailyForecastUseCase.Param(
             latitude = city.latitude,
             longitude = city.longitude,
         )
         getDailyForecastUseCase(param)
+            .map { forecast ->
+                forecast.map {
+                    DailyForecastListItemModel.Loaded(dailyForecast = it)
+                }
+            }
             .catch { cause ->
-                _uiState.update { it.copy(error = cause, isLoading = false) }
+                _uiState.update {
+                    it.copy(error = cause, dailyForecast = emptyList(), isLoading = false)
+                }
             }
             .collectLatest { forecast ->
                 _uiState.update { it.copy(dailyForecast = forecast, isLoading = false) }

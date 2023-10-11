@@ -45,7 +45,7 @@ class ForecastViewModelTest {
         // then
         val expected = ForecastUiState(
             city = TestSamples.allCities.first(),
-            dailyForecast = TestSamples.dailyForecast,
+            dailyForecast = TestSamples.dailyForecast.map { DailyForecastListItemModel.Loaded(it) },
         )
         assertEquals(expected, actual)
         coVerify(exactly = 1) {
