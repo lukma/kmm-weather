@@ -70,7 +70,7 @@ fun DailyForecastView(
                         start.linkTo(parent.start)
                         top.linkTo(parent.top)
                         width = if (item is DailyForecastListItemModel.Loading) {
-                            Dimension.percent(0.5f)
+                            Dimension.percent(percent = 0.5f)
                         } else {
                             Dimension.wrapContent
                         }
@@ -89,7 +89,7 @@ fun DailyForecastView(
                         start.linkTo(parent.start)
                         top.linkTo(dateValue.bottom, margin = 8.dp)
                         width = if (item is DailyForecastListItemModel.Loading) {
-                            Dimension.percent(0.3f)
+                            Dimension.percent(percent = 0.3f)
                         } else {
                             Dimension.wrapContent
                         }
@@ -104,7 +104,7 @@ fun DailyForecastView(
                 modifier = Modifier.constrainAs(humidityLabel) {
                     top.linkTo(parent.top)
                     end.linkTo(parent.end)
-                    width = Dimension.percent(0.3f)
+                    width = Dimension.percent(percent = 0.3f)
                 },
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.bodySmall,
