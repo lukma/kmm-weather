@@ -96,7 +96,7 @@ class HomeViewModel(
             }
         }
             .catch { cause ->
-                _uiState.update { it.copy(error = cause) }
+                _uiState.update { it.copy(error = cause, listOfCities = emptyList()) }
             }
             .collectLatest { cities ->
                 _uiState.update { it.copy(listOfCities = cities) }

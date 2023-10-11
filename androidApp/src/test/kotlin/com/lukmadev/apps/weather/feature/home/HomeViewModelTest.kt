@@ -3,6 +3,7 @@ package com.lukmadev.apps.weather.feature.home
 import com.lukmadev.apps.weather.util.CoroutinesTestRule
 import com.lukmadev.apps.weather.util.TestSamples
 import com.lukmadev.core.domain.common.entity.Result
+import com.lukmadev.core.domain.common.exception.SerializationError
 import com.lukmadev.core.domain.geocoding.usecase.FindCitiesUseCase
 import com.lukmadev.core.domain.geocoding.usecase.GetFavoriteCitiesUseCase
 import com.lukmadev.core.domain.geocoding.usecase.ToggleFavoriteCityUseCase
@@ -10,6 +11,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -47,7 +49,6 @@ class HomeViewModelTest {
 
         // then
         val expected = HomeUiState(
-            query = "",
             listOfCities = TestSamples.favoriteCities.map {
                 CityListItemModel.Loaded(
                     city = it,
@@ -111,6 +112,26 @@ class HomeViewModelTest {
             },
         )
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `send event TypeQuery got failure`() = runTest {
+        // given
+        val error = SerializationError(Throwable("fail"))
+        coEvery { findCitiesUseCase(any()) } returns flow { throw error }
+        coEvery { getFavoriteCitiesUseCase() } returns flowOf(TestSamples.favoriteCities)
+
+        // when
+        viewModel.sendEvent(HomeUiEvent.TypeQuery(query = TestSamples.allCities.first().name))
+        delay(TimeUnit.SECONDS.toMillis(2))
+        val actual = viewModel.uiState.value
+
+        // then
+        val expected = HomeUiState(
+            query = TestSamples.allCities.first().name,
+            error = error,
+        )
+        assertEquals(expected.error, actual.error)
     }
 
     @Test
