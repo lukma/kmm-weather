@@ -46,7 +46,6 @@ fun HomeView(
             .fillMaxSize()
             .padding(start = 16.dp, top = 16.dp, end = 16.dp)
     ) {
-
         OutlinedTextField(
             value = uiState.query,
             onValueChange = { onSendEvent(HomeUiEvent.TypeQuery(it)) },
