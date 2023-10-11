@@ -121,12 +121,11 @@ class HomeViewModelTest {
 
         // when
         viewModel.sendEvent(HomeUiEvent.ShowFavoriteCities)
-        viewModel.sendEvent(HomeUiEvent.ToggleFavorite(city = TestSamples.favoriteCities.last()))
+        viewModel.sendEvent(HomeUiEvent.ToggleFavorite(city = TestSamples.favoriteCities.first()))
         val actual = viewModel.uiState.value
 
         // then
         val expected = HomeUiState(
-            query = TestSamples.allCities.first().name,
             listOfCities = emptyList(),
         )
         assertEquals(expected, actual)
